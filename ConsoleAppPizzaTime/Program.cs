@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace ConsoleAppPizzaTime
+﻿namespace ConsoleAppPizzaTime
 {
+    using System;
+
     class Program
     {
         static void Main(string[] args)
@@ -29,7 +24,7 @@ namespace ConsoleAppPizzaTime
                     iCount--;
                 }
 
-                Console.WriteLine("Out of pizza. Press any Key");
+                Console.WriteLine("Out of pizza. Press any Key and wait for program will close");
                 Console.ReadKey();
                 break;
 

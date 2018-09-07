@@ -24,7 +24,7 @@
                 }
                 else
                 {
-                    throw new MyException();
+                    throw new Exception();
                 }
             }
         }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace ConsoleAppPizzaTime
+﻿namespace ConsoleAppPizzaTime
 {
+    using System;
+    using System.Threading;
+
     public class Company
     {
         private Pizza Pizza { set; get; }
@@ -24,7 +19,7 @@ namespace ConsoleAppPizzaTime
 
             for (int i = 0; i < workersCount; i++) {                               
                 new Thread(TakePieceOfPizze).Start(new People($"Worker #{i + 1}"));
-                Thread.Sleep(1);
+                Thread.Sleep(10);
                 _ThreadCount++;
             }
         }
@@ -48,8 +43,8 @@ namespace ConsoleAppPizzaTime
                     worker.TakePiece(Pizza);
                 }
             }
-            catch (MyException)
-            {                
+            catch (Exception)
+            {
                 EventWaiter.Set(); // Сообщить в main о том что поток завершил роботу
             }
         }
@@ -59,7 +54,7 @@ namespace ConsoleAppPizzaTime
         {
             Pizza = pizza;
 
-            while (_StarterCount < _ThreadCount) Thread.Sleep(10);
+            while (_StarterCount < _ThreadCount) Thread.Sleep(100);
 
             EventStarter.Set();
         }       
