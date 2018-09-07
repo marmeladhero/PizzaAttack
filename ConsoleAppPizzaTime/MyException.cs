@@ -4,9 +4,8 @@
 
     public class MyException : Exception
     {
-        public MyException(string strMessage) : base(strMessage)
+        public MyException()
         {
-
         }
     }
 }

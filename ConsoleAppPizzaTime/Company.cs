@@ -10,22 +10,40 @@ namespace ConsoleAppPizzaTime
 {
     public class Company
     {
-        private Dictionary<Thread, People> LstWorkers { set; get; } = new Dictionary<Thread, People>();
         private Pizza Pizza { set; get; }
- 
-        public Company(int workersCount, Pizza pizza)
-        {            
-            Pizza = pizza;
-            for (int i = 0; i < workersCount; i++)
-            {
-                LstWorkers.Add(new Thread(TakePieceOfPizze), new People($"Worker #{i + 1}"));
+        public ManualResetEvent EventWaiter = new ManualResetEvent(false);
+        private ManualResetEvent EventStarter = new ManualResetEvent(false);
+        
+        private volatile int _StarterCount = 0;
+        private volatile int _ThreadCount = 0;
+
+        public Company(int workersCount)
+        {
+            Console.Clear();
+            Console.WriteLine("Waiting all peoples...");
+
+            for (int i = 0; i < workersCount; i++) {                               
+                new Thread(TakePieceOfPizze).Start(new People($"Worker #{i + 1}"));
+                Thread.Sleep(1);
+                _ThreadCount++;
             }
+        }
+
+        private void RunThreads(object thread)
+        {
+
+            EventStarter.WaitOne();
+            (thread as Thread).Start();
         }
 
         private void TakePieceOfPizze(object people)
         {
             try
             {
+                
+                _StarterCount++;               
+                EventStarter.WaitOne();
+
                 while (true)
                 {
                     People worker = people as People;
@@ -33,17 +51,20 @@ namespace ConsoleAppPizzaTime
                 }
             }
             catch (MyException)
-            {          
+            {
+                //
+                EventWaiter.Set();
             }
         }
 
 
-        public void BeginParty()
+        public void BeginParty(Pizza pizza)
         {
-            foreach(var worker in LstWorkers)
-            {
-                worker.Key.Start(worker.Value);                
-            }
+            Pizza = pizza;
+
+            while (_StarterCount < _ThreadCount) Thread.Sleep(10);
+
+            EventStarter.Set();
         }       
     }
 }

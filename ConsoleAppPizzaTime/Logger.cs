@@ -11,7 +11,7 @@
         {
             lock (locker)
             {
-                using (StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + '\\' + DateTime.Now.ToString("yyyy.MM.dd.hh") + ".txt", true))
+                using (StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + '\\' + DateTime.Now.ToString("yyyy.MM.dd") + ".txt", true))
                 {
                     writer.Write(strText + Environment.NewLine);
                 }

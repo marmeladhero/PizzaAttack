@@ -24,7 +24,7 @@
                 }
                 else
                 {
-                    throw new MyException("Out of pizza! Bring more pizza");
+                    throw new MyException();
                 }
             }
         }

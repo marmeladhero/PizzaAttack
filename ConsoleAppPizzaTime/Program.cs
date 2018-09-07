@@ -11,11 +11,31 @@ namespace ConsoleAppPizzaTime
     {
         static void Main(string[] args)
         {
-            Company company = new Company(4, new Pizza(30));
-            company.BeginParty();
+            do
+            {
+                Console.Clear();
+                Console.Write("Enter num of employees: ");
+                if (!int.TryParse(Console.ReadLine(), out int iCount))
+                    continue;
+                Console.Write("Enter count of pizza pieces: ");
+                if (!int.TryParse(Console.ReadLine(), out int iPizzaCount))
+                    continue;                
+                Company company = new Company(iCount);
+                company.BeginParty(new Pizza(iPizzaCount));                
+                
+                while (iCount != 0)
+                {
+                    company.EventWaiter.WaitOne();
+                    iCount--;
+                }
 
-            Console.WriteLine("Out of pizza");
-            Console.ReadKey();
+                Console.WriteLine("Out of pizza. Press any Key");
+                Console.ReadKey();
+                break;
+
+            } while (true);
+
+            return;
         }
     }
 }
