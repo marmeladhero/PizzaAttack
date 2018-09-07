@@ -31,7 +31,6 @@ namespace ConsoleAppPizzaTime
 
         private void RunThreads(object thread)
         {
-
             EventStarter.WaitOne();
             (thread as Thread).Start();
         }
@@ -39,8 +38,7 @@ namespace ConsoleAppPizzaTime
         private void TakePieceOfPizze(object people)
         {
             try
-            {
-                
+            {                
                 _StarterCount++;               
                 EventStarter.WaitOne();
 
@@ -51,9 +49,8 @@ namespace ConsoleAppPizzaTime
                 }
             }
             catch (MyException)
-            {
-                //
-                EventWaiter.Set();
+            {                
+                EventWaiter.Set(); // Сообщить в main о том что поток завершил роботу
             }
         }
 
